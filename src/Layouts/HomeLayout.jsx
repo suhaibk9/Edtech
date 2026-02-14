@@ -66,23 +66,23 @@ const HomeLayout = ({ children }) => {
                   onClick={handleLogout}
                   className="btn btn-primary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
                 >
-                  LogOut
+                  Sign Out
                 </button>
               </div>
             )}
             {!isLoggedIn && (
               <div className="w-full gap-x-2 gap-y-1 flex items-center justify-center">
                 <button
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/signIn")}
                   className="btn btn-primary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
                 >
-                  Login
+                  Sign In
                 </button>
                 <button
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/signUp")}
                   className="btn btn-secondary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
                 >
-                  Register
+                  Sign Up
                 </button>
               </div>
             )}

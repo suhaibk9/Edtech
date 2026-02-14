@@ -7,7 +7,7 @@ const AuthSlice = createSlice({
     data: localStorage.getItem("data") || {},
   },
   reducers: {
-    logout(state, action) {
+    logout(state) {
       state.isLoggedIn = false;
       state.role = "";
       state.data = {};
