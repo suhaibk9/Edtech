@@ -1,10 +1,24 @@
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import Footer from "../Components/Footer";
+import { logout } from "../redux/slices/AuthSlice";
 
 const HomeLayout = ({ children }) => {
+  const disaptch = useDispatch();
+  const navigate = useNavigate();
+  //Handle Logout
+  const handleLogout = (e) => {
+    e.preventDefault();
+    disaptch(logout());
+    navigate("/");
+  };
+  //check if user is logged in
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  //Chcek user role
+  const role = useSelector((state) => state.auth.role);
   const hideDrawer = () => {
     const element = document.getElementsByClassName("drawer-toggle");
     element[0].checked = false;
@@ -29,6 +43,11 @@ const HomeLayout = ({ children }) => {
                 <AiFillCloseCircle size={24} />
               </button>
             </li>
+            {isLoggedIn && role === "ADMIN" && (
+              <li>
+                <Link to="/admin/dashboard">Admin Dashboard</Link>
+              </li>
+            )}
             <li>
               <Link to="/">Home</Link>
             </li>
@@ -41,6 +60,32 @@ const HomeLayout = ({ children }) => {
             <li>
               <Link to="/about">About</Link>
             </li>
+            {isLoggedIn && (
+              <div className="w-full flex items-center justify-center">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-primary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
+                >
+                  LogOut
+                </button>
+              </div>
+            )}
+            {!isLoggedIn && (
+              <div className="w-full gap-x-2 gap-y-1 flex items-center justify-center">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="btn btn-primary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate("/register")}
+                  className="btn btn-secondary px-4 py-1 font-semibold rounded-md cursor-pointer hover:bg-yellow-600 transition-all ease-in-out"
+                >
+                  Register
+                </button>
+              </div>
+            )}
           </ul>
         </div>
       </div>
