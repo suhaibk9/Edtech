@@ -1,11 +1,16 @@
 import { useState } from "react";
 
+import toast from "react-hot-toast";
 import { BsPersonCircle } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../Layouts/HomeLayout";
+import { createAccount } from "../redux/slices/AuthSlice";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [previewImg, setPreviewImg] = useState(null);
   const [signUpData, setSignUpData] = useState({
     fullName: "",
@@ -13,21 +18,77 @@ const SignUp = () => {
     password: "",
     avatar: null,
   });
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log("e.target", e.target.value);
-    const { name, value } = e.target;
-    setSignUpData({
-      ...signUpData,
-      [name]: value,
-    });
     //Call the API
+    if (
+      !signUpData.fullName ||
+      !signUpData.email ||
+      !signUpData.password ||
+      !signUpData.avatar
+    ) {
+      toast.error("Please fill all the fields!");
+      return;
+    }
+    //name should be 5chars long
+    if (signUpData.fullName.length < 5) {
+      toast.error("Name should be at least 5 characters long!");
+      return;
+    }
+    //Not Valid Email email regex - /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!signUpData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      toast.error("Please enter a valid email!");
+      return;
+    }
+    // //Not Valid Password password regex - /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    // if (
+    //   !signUpData.password.match(
+    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //   )
+    // ) {
+    //   toast.error("Please enter a valid password!");
+    //   return;
+    // }
+    const formData = new FormData();
+    formData.append("fullName", signUpData.fullName);
+    formData.append("email", signUpData.email);
+    formData.append("password", signUpData.password);
+    formData.append("avatar", signUpData.avatar);
+    //make API call
+    const response = await dispatch(createAccount(formData));
     setSignUpData({
       fullName: "",
       email: "",
       password: "",
       avatar: null,
     });
+    setPreviewImg(null);
+    if (response?.payload?.success) {
+      navigate("/");
+    }
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSignUpData({
+      ...signUpData,
+      [name]: value,
+    });
+  };
+  const handleImgUpload = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (!file) return;
+    // Save actual file for API
+    setSignUpData((prev) => ({
+      ...prev,
+      avatar: file,
+    }));
+    // Preview
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewImg(reader.result);
+    };
   };
   return (
     <HomeLayout>
@@ -40,9 +101,11 @@ const SignUp = () => {
           <label htmlFor="image_uploads" className="cursor-pointer">
             {previewImg ? (
               <img
+                onChange={handleImgUpload}
                 id="image_uploads"
                 src={previewImg}
                 alt="Preview"
+                name="avatar"
                 className="w-24 h-24 rounded-full m-auto"
               />
             ) : (
@@ -53,6 +116,7 @@ const SignUp = () => {
             className="hidden"
             type="file"
             id="image_uploads"
+            onChange={handleImgUpload}
             name="image_uploads"
             accept=".jpg .png .jpeg .svg"
           />
@@ -62,6 +126,8 @@ const SignUp = () => {
             </label>
             <input
               required
+              value={signUpData.fullName}
+              onChange={handleInputChange}
               placeholder="Enter Your Full Name!"
               type="text"
               id="fullName"
@@ -75,6 +141,8 @@ const SignUp = () => {
             </label>
             <input
               required
+              value={signUpData.email}
+              onChange={handleInputChange}
               placeholder="Enter Your Email!"
               type="email"
               id="email"
@@ -88,6 +156,8 @@ const SignUp = () => {
             </label>
             <input
               required
+              value={signUpData.password}
+              onChange={handleInputChange}
               placeholder="Enter Your Password!"
               type="password"
               id="password"
