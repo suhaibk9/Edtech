@@ -24,7 +24,7 @@ const HomeLayout = ({ children }) => {
     element[0].checked = false;
   };
   return (
-    <div className="min-h-[90vh]">
+    <div className="h-screen flex flex-col">
       {/* Drawer */}
       <div className="drawer absolute left-0 z-50 w-fit">
         <input className="drawer-toggle" id="my-drawer" type="checkbox" />
@@ -89,7 +89,7 @@ const HomeLayout = ({ children }) => {
           </ul>
         </div>
       </div>
-      {children}
+      <div className="grow">{children}</div>
       <Footer />
     </div>
   );
