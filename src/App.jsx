@@ -1,12 +1,15 @@
 import { Toaster } from "react-hot-toast";
-import { Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Footer from "./Components/Footer";
+import HomePage from "./Pages/HomePage";
 const App = () => {
   return (
     <>
-      {/* <Routes></Routes> */}
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+
       <Toaster />
     </>
   );
