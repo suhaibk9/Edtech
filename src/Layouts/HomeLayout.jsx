@@ -10,10 +10,12 @@ const HomeLayout = ({ children }) => {
   const disaptch = useDispatch();
   const navigate = useNavigate();
   //Handle Logout
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
-    disaptch(logout());
-    navigate("/");
+    const res = await disaptch(logout());
+    if (res?.payload?.success) {
+      navigate("/");
+    }
   };
   //check if user is logged in
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);

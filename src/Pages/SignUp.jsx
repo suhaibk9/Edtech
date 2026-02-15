@@ -40,15 +40,7 @@ const SignUp = () => {
       toast.error("Please enter a valid email!");
       return;
     }
-    // //Not Valid Password password regex - /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    // if (
-    //   !signUpData.password.match(
-    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    //   )
-    // ) {
-    //   toast.error("Please enter a valid password!");
-    //   return;
-    // }
+ 
     const formData = new FormData();
     formData.append("fullName", signUpData.fullName);
     formData.append("email", signUpData.email);
