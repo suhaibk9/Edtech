@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../Layouts/HomeLayout";
 import { createAccount } from "../redux/slices/AuthSlice";
+import { isEmail } from "../Utils/regexMatcher";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -36,11 +37,11 @@ const SignUp = () => {
       return;
     }
     //Not Valid Email email regex - /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!signUpData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (!isEmail(signUpData.email)) {
       toast.error("Please enter a valid email!");
       return;
     }
- 
+
     const formData = new FormData();
     formData.append("fullName", signUpData.fullName);
     formData.append("email", signUpData.email);
@@ -87,6 +88,8 @@ const SignUp = () => {
       <div className="flex justify-center items-center h-full w-full">
         <form
           action=""
+          noValidate
+          onSubmit={handleSignUp}
           className="flex flex-col justify-center gap-3 rounded-lg p-4 w-96 text-white shadow-[0_0_10px_black]"
         >
           <h1 className="text-2xl text-center font-bold">Registration Page</h1>

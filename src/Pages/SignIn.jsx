@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../Layouts/HomeLayout";
 import { login } from "../redux/slices/AuthSlice";
+import { isEmail } from "../Utils/regexMatcher";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const SignIn = () => {
       return;
     }
 
-    if (!loginData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (!isEmail(loginData.email)) {
       toast.error("Please enter a valid email!");
       return;
     }

@@ -25,9 +25,9 @@ const CourseList = () => {
           <span className="font-bold text-yellow-500"> Made By Experts</span>
         </h1>
         <div className="mb-10 flex flex-row flex-wrap gap-15">
-          {courseData?.map((course) => (
-            <CourseCard key={course._id} data={course} />
-          ))}
+          {courseData?.map((element) => {
+            return <CourseCard key={element._id} data={element} />;
+          })}
         </div>
       </div>
     </HomeLayout>

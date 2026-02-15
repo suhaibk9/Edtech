@@ -3,7 +3,7 @@ const CourseCard = ({ data }) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate("/course/description")}
+      onClick={() => navigate("/course/description", { state: data })}
       className="text-white shadow-lg rounded-lg cursor-pointer w-[22rem] h-[430px] bg-zinc-700 group overflow-hidden"
     >
       <div className="overflow-hidden">
