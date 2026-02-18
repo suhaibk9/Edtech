@@ -18,9 +18,8 @@ const HomeLayout = ({ children }) => {
     }
   };
   //check if user is logged in
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  //Chcek user role
-  const role = useSelector((state) => state.auth.role);
+  const { isLoggedIn, role } = useSelector((state) => state.auth);
+
   const hideDrawer = () => {
     const element = document.getElementsByClassName("drawer-toggle");
     element[0].checked = false;
@@ -45,14 +44,25 @@ const HomeLayout = ({ children }) => {
                 <AiFillCloseCircle size={24} />
               </button>
             </li>
+
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            {isLoggedIn && role === "ADMIN" && (
+              <li>
+                <Link to="/course/create">Create Course</Link>
+              </li>
+            )}
             {isLoggedIn && role === "ADMIN" && (
               <li>
                 <Link to="/admin/dashboard">Admin Dashboard</Link>
               </li>
             )}
-            <li>
-              <Link to="/">Home</Link>
-            </li>
+            {isLoggedIn && (role === "USER" || role === "ADMIN") && (
+              <li>
+                <Link to="/user/profile">Profile</Link>
+              </li>
+            )}
             <li>
               <Link to="/courses">All Courses</Link>
             </li>

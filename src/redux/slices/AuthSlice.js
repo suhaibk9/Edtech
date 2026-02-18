@@ -31,11 +31,37 @@ export const login = createAsyncThunk("auth/login", async (data) => {
 });
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
-    const response = AxiosInstance.get("/user/logout");
+    const response = AxiosInstance.post("/user/logout");
     await toast.promise(response, {
       loading: "Wait! Logout in progress...",
       success: (data) => data?.data?.message,
       error: "Failed to logout",
+    });
+    return (await response).data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+export const updateProfile = createAsyncThunk("auth/update", async (data) => {
+  try {
+    const response = AxiosInstance.put(`/user/update/${data[0]}`, data[1]);
+    await toast.promise(response, {
+      loading: "Updating Profile...",
+      success: (data) => data?.data?.message,
+      error: "Failed to update profile",
+    });
+    return (await response).data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+export const getUserData = createAsyncThunk("auth/getData", async () => {
+  try {
+    const response = AxiosInstance.get("/user/me");
+    await toast.promise(response, {
+      loading: "Fetching Data...",
+      success: (data) => data?.data?.message,
+      error: "Failed to fetch data",
     });
     return (await response).data;
   } catch (error) {
@@ -80,6 +106,16 @@ const AuthSlice = createSlice({
         state.role = "";
         state.data = {};
         localStorage.clear();
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        if (!action.payload) return;
+        state.data = action?.payload?.user;
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        if (!action.payload) return;
+        state.data = action?.payload?.user;
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
       });
   },
 });

@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
 
 const CourseDescription = () => {
   const { state } = useLocation();
-  const { role } = useSelector((state) => state.auth.role);
+  const navigate = useNavigate();
+  const { role, data } = useSelector((state) => state.auth);
+
   return (
     <HomeLayout>
       <div className="h-full w-full pt-12 px-20 flex flex-col items-center justify-center text-white">
@@ -32,12 +34,20 @@ const CourseDescription = () => {
                 </p>
               </div>
             </div>
-            {role === "ADMIN" || state?.subscriptions?.status === "ACTIVE" ? (
-              <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-black font-bold py-2 px-4 rounded cursor-pointer">
+            {role === "ADMIN" || data?.subscription?.status === "active" ? (
+              <button
+                onClick={() =>
+                  navigate("/course/displaylectures", { state: { ...state } })
+                }
+                className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-black font-bold py-2 px-4 rounded cursor-pointer"
+              >
                 Watch Lectures
               </button>
             ) : (
-              <button className="bg-yellow-500 hover:bg-yellow-600 w-full transition-all ease-in-out duration-300 text-black font-bold py-2 px-4 rounded cursor-pointer">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="bg-yellow-500 hover:bg-yellow-600 w-full transition-all ease-in-out duration-300 text-black font-bold py-2 px-4 rounded cursor-pointer"
+              >
                 Subscribe
               </button>
             )}
