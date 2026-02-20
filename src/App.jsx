@@ -13,7 +13,7 @@ import DisplayLectures from "./Pages/Dashboard/DisplayLectures";
 import Denied from "./Pages/Denied";
 import HomePage from "./Pages/HomePage";
 import NotFound from "./Pages/NotFound";
-import Checkout from "./Pages/Payements/checkout";
+import Checkout from "./Pages/Payements/Checkout";
 import CheckoutFail from "./Pages/Payements/CheckoutFail";
 import CheckoutSuccess from "./Pages/Payements/CheckoutSuccess";
 import SignIn from "./Pages/SignIn";
