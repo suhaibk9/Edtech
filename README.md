@@ -1,6 +1,7 @@
 # EdTech Platform - Frontend
 
 A modern, responsive Learning Management System (LMS) frontend built with React, Vite, Redux Toolkit, and Tailwind CSS.
+The full backend codebase for this project can be found at [suhaibk9/EDTECH_BE](https://github.com/suhaibk9/EDTECH_BE).
 
 ## Features
 
@@ -49,7 +50,6 @@ A modern, responsive Learning Management System (LMS) frontend built with React,
 
    ```env
    VITE_APP_BASE_URL="http://localhost:3000"
-   VITE_RAZORPAY_KEY_ID="your_razorpay_key"
    ```
 
 4. Start the development server:
