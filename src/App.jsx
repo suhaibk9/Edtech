@@ -7,6 +7,8 @@ import Contact from "./Pages/Contact";
 import CourseDescription from "./Pages/Course/CourseDescription";
 import CourseList from "./Pages/Course/CourseList";
 import CreateCourse from "./Pages/Course/CreateCourse";
+import AddLecture from "./Pages/Dashboard/AddLectures";
+import AdminDashBoard from "./Pages/Dashboard/AdminDashBoard";
 import DisplayLectures from "./Pages/Dashboard/DisplayLectures";
 import Denied from "./Pages/Denied";
 import HomePage from "./Pages/HomePage";
@@ -28,11 +30,13 @@ const App = () => {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/courses" element={<CourseList />} />
-        <Route path="course/description" element={<CourseDescription />} />
+        <Route path="/course/description" element={<CourseDescription />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/denied" element={<Denied />} />
         <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
+          <Route path="/course/addlecture" element={<AddLecture />} />
           <Route path="/course/create" element={<CreateCourse />} />
+          <Route path="/admin/dashboard" element={<AdminDashBoard />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
           <Route path="/user/profile" element={<Profile />} />

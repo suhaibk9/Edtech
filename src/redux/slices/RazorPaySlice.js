@@ -59,19 +59,22 @@ export const verifyPayment = createAsyncThunk(
     }
   },
 );
-const getPaymentRecord = createAsyncThunk("/payments/getRecord", async () => {
-  try {
-    const response = AxiosInstance.get("/payments?count=100");
-    toast.promise(response, {
-      loading: "Fetching Payment Record...",
-      success: (data) => data?.data?.message,
-      error: "Failed to fetch Payment Record",
-    });
-    return (await response).data;
-  } catch (error) {
-    console.log(error);
-  }
-});
+export const getPaymentRecord = createAsyncThunk(
+  "/payments/getRecord",
+  async () => {
+    try {
+      const response = AxiosInstance.get("/payments?count=100");
+      toast.promise(response, {
+        loading: "Fetching Payment Record...",
+        success: (data) => data?.data?.message,
+        error: "Failed to fetch Payment Record",
+      });
+      return (await response).data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 export const cancelCourseBundle = createAsyncThunk(
   "/payments/unsubscribe",
   async (data) => {
